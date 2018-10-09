@@ -1,9 +1,8 @@
 ### step2: construct weighted graph  ##
-
-setwd('C:/Users/Juan.XIe/Desktop/test1/BC/')
+# setwd('the/path/to/the/blocks/files')  
 files <-list.files(path=getwd(),pattern='*blocks',full.names=T, recursive=FALSE)
 
-fOUT <-'C:/Users/Juan.XIe/Desktop/test1/BC/Graph/'  # define the path for the output weighted graph
+# fOUT <-'the/path/to/the/output/Graph/'  # define the path for the output weighted graph
 
 for (i in 1:length(files)){
 	F <-readLines(files[i])  # read .blocks file
