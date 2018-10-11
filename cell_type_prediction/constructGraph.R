@@ -3,8 +3,13 @@
 F <-readLines('Yan_RPKM.chars.blocks')  # read .blocks file
 TEMP <-grep('Conds',F,value=T) ## extract condition lines in each BC
 BC <-sapply(strsplit(TEMP,':',2),'[',2) # only keep cell names
+
 CONDS <-as.character()   # store the conditions 
 label_C <-as.numeric()   # store the occurence of one condistions
+temp1 <-gsub('#','_',BC)  # replace # with _
+temp2 <-gsub('-','_',temp1)  
+temp3 <-gsub('c','C',temp2) 
+BC <-temp3
 
 for (j in 1:length(BC)){
 	BCcond <-unlist(strsplit(BC[j], split = " "))
