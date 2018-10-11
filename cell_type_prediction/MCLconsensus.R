@@ -1,4 +1,4 @@
-setwd("C:/Users/Juan.XIe/Desktop/test1/")
+setwd("C:/Users/Juan.XIe/Desktop/test1/") # you may change to your own folder
 library(igraph)
 library(mclust)
 library(MCL)
