@@ -30,7 +30,7 @@ for (k in 1:dim(Node)[1]){
 }
 GRAPH <-data.frame(Node[,1],Node[,2],Wt)
 if (dim(GRAPH)[1]!=0)	{
-	write.csv(subset(GRAPH,Wt!=0),paste("Yan_RPKM_graph.csv",row.names=FALSE)
+	write.csv(subset(GRAPH,Wt!=0),"Yan_RPKM_graph.csv",row.names=FALSE)
 }
 
 
