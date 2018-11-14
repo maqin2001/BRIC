@@ -5,7 +5,7 @@ library(MCL)
 library(clues)
 library(anocva)
 
-RAW <-read.table("Yan_RPKM",header=T,sep="\t")   # ground truth cell type
+RAW <-read.table("Yan_RPKM",header=T,sep="\t")   # expression data
 CellNum <-dim(RAW)[2]-1  # the number of cells 
 
 
@@ -15,7 +15,8 @@ G <-graph.data.frame(Graph,directed = FALSE)  # convert file into graph
 A <- as_adjacency_matrix(G,type="both",attr="weight",names=TRUE,sparse=FALSE)  # convert graph into adjacency matrix
 V_name <-rownames(A)   # the vertix
 Covered <-length(V_name)  # the #of covered cells
-	
+
+## MCL clustering on adjacency matrix
 MCL_cs <-function(A){
 	CLUST <-list()
 	for (i in 1:100){
@@ -57,6 +58,7 @@ MCL_cs <-function(A){
 return(label)
 }
 
+## Spectral clustering on adjacency matrix, need provide the number of clusters
 SC_cs <-function(A,K){   
 	sc <-spectralClustering(A,k=K)
 	names(sc) <-rownames(A)
@@ -71,6 +73,7 @@ SC_cs <-function(A,K){
 return(label)
 }
 
+## users need to specify which clustering method they want to use
 CLUSTERING <-function(A,K,method){
 	if (method=='MCL_cs'){
 		label <-MCL_cs(A)
@@ -81,7 +84,8 @@ CLUSTERING <-function(A,K,method){
 	}
 }
 
-label <-CLUSTERING(A,7,'SC_cs') # get the predicted cell cluster labels
+label <-CLUSTERING(A,'MCL_cs') # get the predicted cell cluster labels
+# or label <-CLUSTERING(A,7,'SC_cs')
 
 ## if you have some reference labels, you can calculate the ARI, RI, FM and JI
 target <-read.table('Yan_cell.csv',header=T,sep=',')
