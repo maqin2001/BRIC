@@ -9,6 +9,7 @@ CellNum <-dim(RAW)[2]-1  # the number of cells
 
 
 Graph <-read.csv('Yan_RPKM_graph.csv',header=T,sep=",")
+names(Graph) <-c('Node1','Node2','weight')
 G <-graph.data.frame(Graph,directed = FALSE)  # convert file into graph
 A <- as_adjacency_matrix(G,type="both",attr="weight",names=TRUE)  # convert graph into adjacency matrix
 MCL_name <-rownames(A)   # the vertix
