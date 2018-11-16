@@ -84,18 +84,30 @@ CLUSTERING <-function(A,K,method){
 	}
 }
 
-label <-CLUSTERING(A,'MCL_cs') # get the predicted cell cluster labels
+labels <-CLUSTERING(A,'MCL_cs') # get the predicted cell cluster labels
 # or label <-CLUSTERING(A,7,'SC_cs')
 
 ## if you have some reference labels, you can calculate the ARI, RI, FM and JI
 target <-read.table('Yan_cell.csv',header=T,sep=',')
 head(target)
-sorted <-label[match(target$Cell_type,names(label))]  # sort predicted cell cluster labels
+# judge if the cell names are consistent
+aa <-names(labels)
+bb <-target$Cell_type
 
-ARI <-adjustedRandIndex(sorted,target$Cluster)  # calculate ARI
-RI <-adjustedRand(sorted,target$Cluster,randMethod='Rand')
-FM <-adjustedRand(sorted,target$Cluster,randMethod='FM')
-JI <-adjustedRand(sorted,target$Cluster,randMethod='Jaccard')
+# if consistent, continue to calculate ARI ect
+if (identical(sort(aa),sort(as.character(bb)))=='TRUE'){
+  sorted <-labels[match(target$Cell_type,names(labels))] # sort the predicted label
+
+  ARI <-adjustedRandIndex(sorted,target$Cluster)  
+  RI <-adjustedRand(sorted,target$Cluster,randMethod='Rand')
+  FM <-adjustedRand(sorted,target$Cluster,randMethod='FM')
+  JI <-adjustedRand(sorted,target$Cluster,randMethod='Jaccard')
+  df <-data.frame(ARI=ARI, RandIndex=RI,FolkesMallow=FM, Jaccard=JI)
+  df
+  
+}else{
+  print('Cell names is not consistent, please double check !')
+}
 
 
 
